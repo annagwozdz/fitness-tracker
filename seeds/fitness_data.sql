@@ -51,12 +51,10 @@ CREATE TABLE wellbeing (
     worked_out BOOLEAN NOT NULL  -- Whether they worked out that day (true/false)
 );
 
--- Insert  data into runners table
-INSERT INTO runners (first_name, last_name, gender, dob, height, weight, fitness_level, activity_level, age) 
+INSERT INTO runners (id, first_name, last_name, gender, dob, height, weight, fitness_level, activity_level, age) 
 VALUES 
-('John', 'Doe', 'Male', '1990-01-15', 180, 75, 2, 3, EXTRACT(YEAR FROM AGE('1990-01-15'::date))),  -- Calculating age
-('Jane', 'Smith', 'Female', '1985-08-25', 165, 65, 1, 2, EXTRACT(YEAR FROM AGE('1985-08-25'::date)));
-
+(1, 'John', 'Doe', 'Male', '1990-01-15', 180, 75, 2, 3, EXTRACT(YEAR FROM AGE('1990-01-15'::date))),  -- John Doe
+(2, 'Jane', 'Smith', 'Female', '1985-08-25', 165, 65, 1, 2, EXTRACT(YEAR FROM AGE('1985-08-25'::date)));
 -- Insert  data into runs table
 INSERT INTO runs (runner_id, date, run_type, distance, duration, satisfaction) 
 VALUES (1, '2023-09-15', 1, 5.00, 30, 8);  -- Using runner_id 1, run_type 'Interval'
