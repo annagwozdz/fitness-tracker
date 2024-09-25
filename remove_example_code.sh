@@ -19,9 +19,9 @@ rm tests/test_book_repository.py
 rm tests/test_book.py
 rm tests/test_example_routes.py
 rm example_routes.py
-rm seeds/book_store.sql
+rm seeds/fitness_data.sql
 
-grep -v book_store seed_dev_database.py > seed_dev_database.py.tmp
+grep -v fitness_data seed_dev_database.py > seed_dev_database.py.tmp
 mv seed_dev_database.py.tmp seed_dev_database.py
 
 sed -n -e '/== Example Code Below ==/{' -e ':a' -e 'N' -e '/== End Example Code ==\n/!ba' -e 's/.*//' -e '}' -e 'p' app.py > app.py.tmp

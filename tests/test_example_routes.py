@@ -3,7 +3,7 @@ GET /books
 """
 def test_get_books(db_connection, web_client): # Note web_client fixture, see conftest.py
     # We seed our database with the book store seed file
-    db_connection.seed("seeds/book_store.sql")
+    db_connection.seed("seeds/fitness_data.sql")
 
     # We make a GET request to /books
     response = web_client.get("/books")
@@ -24,7 +24,7 @@ def test_get_books(db_connection, web_client): # Note web_client fixture, see co
 GET /books/<id>
 """
 def test_get_book(db_connection, web_client):
-    db_connection.seed("seeds/book_store.sql")
+    db_connection.seed("seeds/fitness_data.sql")
 
     response = web_client.get("/books/1")
 
@@ -36,7 +36,7 @@ def test_get_book(db_connection, web_client):
 POST /books
 """
 def test_create_book(db_connection, web_client):
-    db_connection.seed("seeds/book_store.sql")
+    db_connection.seed("seeds/fitness_data.sql")
 
     response = web_client.post("/books", data={
         "title": "The Great Gatsby",
@@ -62,7 +62,7 @@ def test_create_book(db_connection, web_client):
 DELETE /books/<id>
 """
 def test_delete_book(db_connection, web_client):
-    db_connection.seed("seeds/book_store.sql")
+    db_connection.seed("seeds/fitness_data.sql")
 
     response = web_client.delete("/books/1")
 
