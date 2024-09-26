@@ -12,11 +12,11 @@ def test_get_all_records(db_connection):
     db_connection.seed("seeds/fitness_data.sql")  # Seed our database with some test data
     repository = RunRepository(db_connection)  # Create a new RunRepository
 
-    runs = repository.all()  # Get all runs
-
+    runs = repository.all()  
+    
     assert runs == [
-        Run(1, datetime(2023, 9, 15).date(), 1, Decimal('5.00'), 30, 8),
-        Run(2, datetime(2023, 9, 16).date(), 2, Decimal('2.50'), 15, 7),
+        Run(1, datetime(2023, 9, 15).date(), 'interval', Decimal('5.00'), '00:30:00', 8),
+        Run(2, datetime(2023, 9, 16).date(), 'sprint', Decimal('2.50'), '00:15:00', 7),
     ]
 # """
 # When we call BookRepository#find
