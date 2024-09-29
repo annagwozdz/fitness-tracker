@@ -1,7 +1,9 @@
 -- First, delete all tables if they exist
-DROP TABLE IF EXISTS wellbeing CASCADE;
-DROP TABLE IF EXISTS runs CASCADE;
+DROP TABLE IF EXISTS well_being CASCADE;
 DROP TABLE IF EXISTS runners CASCADE;
+DROP TABLE IF EXISTS wellbeing_diary CASCADE;
+DROP TABLE IF EXISTS runs CASCADE;
+DROP TABLE IF EXISTS personal_info CASCADE;
 
 -- Enum for sex, restricting to male and female
 DO $$ 
@@ -35,8 +37,8 @@ BEGIN
     END IF;
 END $$;
 
--- Create the runners table
-CREATE TABLE runners (
+-- Create the personal_info table (previously runners)
+CREATE TABLE personal_info (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(25) NOT NULL,
     last_name VARCHAR(25) NOT NULL,
@@ -52,7 +54,7 @@ CREATE TABLE runners (
 -- Create the runs table
 CREATE TABLE runs (
     id SERIAL PRIMARY KEY,
-    runner_id INT NOT NULL REFERENCES runners(id) ON DELETE CASCADE,
+    person_id INT NOT NULL REFERENCES personal_info(id) ON DELETE CASCADE,
     run_type run_type_enum NOT NULL,  -- Enum for run types
     distance DECIMAL(5, 2) NOT NULL CHECK (distance >= 0),
     duration INTERVAL NOT NULL CHECK (duration >= '00:00:00'::interval),  -- Using INTERVAL for time duration
@@ -60,33 +62,38 @@ CREATE TABLE runs (
     satisfaction INT NOT NULL CHECK (satisfaction >= 1 AND satisfaction <= 10)
 );
 
--- Create the wellbeing table with user-input calories
-CREATE TABLE wellbeing (
+-- Create the wellbeing_diary table
+CREATE TABLE wellbeing_diary (
     id SERIAL PRIMARY KEY,
-    runner_id INT NOT NULL REFERENCES runners(id) ON DELETE CASCADE,
+    person_id INT NOT NULL REFERENCES personal_info(id) ON DELETE CASCADE,
     date DATE NOT NULL,
     calories_in INT CHECK (calories_in >= 0),  -- User-input calories consumed
     calories_out INT CHECK (calories_out >= 0),  -- User-input calories burned
     mood INT NOT NULL CHECK (mood >= 1 AND mood <= 10),
     stress_level INT NOT NULL CHECK (stress_level >= 1 AND stress_level <= 10),
-    hours_of_sleep DECIMAL(3, 1) NOT NULL CHECK (hours_of_sleep >= 0),
+    hours_of_sleep INTERVAL NOT NULL CHECK (hours_of_sleep >= '00:00'::interval),  -- Using INTERVAL for hours of sleep (hours and minutes)
     worked_out BOOLEAN NOT NULL
 );
 
--- Sample data inserts
-INSERT INTO runners (first_name, last_name, height, weight, sex, age, fitness_level, activity_level) 
+-- Sample data for personal_info
+INSERT INTO personal_info (first_name, last_name, height, weight, sex, age, fitness_level, activity_level) 
 VALUES 
-('John', 'Doe', 180, 75.0, 'male', 33, 'intermediate', 'moderately_active'),
-('Jane', 'Smith', 165, 65.0, 'female', 38, 'beginner', 'lightly_active');
+('John', 'Doe', 180, 75.0, 'male', 33, 'intermediate', 'moderately_active');
 
 -- Sample data for runs
-INSERT INTO runs (runner_id, date, run_type, distance, duration, satisfaction) 
+INSERT INTO runs (person_id, date, run_type, distance, duration, satisfaction) 
 VALUES 
 (1, '2023-09-15', 'interval', 5.00, '00:30:00', 8),
-(2, '2023-09-16', 'sprint', 2.50, '00:15:00', 7);
+(1, '2023-09-16', 'sprint', 2.50, '00:15:00', 7),
+(1, '2023-09-17', 'long_distance', 10.00, '01:00:00', 9),
+(1, '2023-09-18', 'race', 7.00, '00:45:00', 9),
+(1, '2023-09-19', 'interval', 6.00, '00:35:00', 8);
 
--- Sample data for wellbeing
-INSERT INTO wellbeing (runner_id, date, calories_in, calories_out, mood, stress_level, hours_of_sleep, worked_out) 
+-- Sample data for wellbeing_diary
+INSERT INTO wellbeing_diary (person_id, date, calories_in, calories_out, mood, stress_level, hours_of_sleep, worked_out) 
 VALUES 
-(1, '2023-09-15', 2500, 2000, 7, 5, 8.0, TRUE),
-(2, '2023-09-16', 2000, 1800, 6, 4, 7.5, FALSE);
+(1, '2023-09-15', 2500, 2000, 7, 5, '08:00', TRUE),
+(1, '2023-09-16', 2200, 1800, 6, 4, '07:30', TRUE),
+(1, '2023-09-17', 2700, 2100, 8, 6, '06:45', FALSE),
+(1, '2023-09-18', 2600, 1900, 7, 5, '07:00', TRUE),
+(1, '2023-09-19', 2400, 2000, 6, 4, '07:15', FALSE);
