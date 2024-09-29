@@ -21,24 +21,24 @@ def test_get_all_records(db_connection):
         Run(5, 1, datetime(2023, 9, 19).date(), 'interval', Decimal('6.00'), timedelta(minutes=35), 8),
     ]
 
-"""
-When we call RunRepository #find_by_personal_info_id, we get all runs for the specified person.
-"""
-def test_find_personal_info_runs(db_connection):
-    db_connection.seed("seeds/fitness_data.sql")
+# """
+# When we call RunRepository #find_by_personal_info_id, we get all runs for the specified person.
+# """
+# def test_find_personal_info_runs(db_connection):
+#     db_connection.seed("seeds/fitness_data.sql")
 
-    repository = RunRepository(db_connection)
-    person_id = 1  
-    expected_runs = [
-        Run(1, person_id, datetime(2023, 9, 15).date(), 'interval', Decimal('5.00'), timedelta(minutes=30), 8),
-        Run(2, person_id, datetime(2023, 9, 16).date(), 'sprint', Decimal('2.50'), timedelta(minutes=15), 7),
-        Run(3, person_id, datetime(2023, 9, 17).date(), 'long_distance', Decimal('10.00'), timedelta(hours=1), 9),
-        Run(4, person_id, datetime(2023, 9, 18).date(), 'race', Decimal('7.00'), timedelta(minutes=45), 9),
-        Run(5, person_id, datetime(2023, 9, 19).date(), 'interval', Decimal('6.00'), timedelta(minutes=35), 8),
-    ]
+#     repository = RunRepository(db_connection)
+#     person_id = 1  
+#     expected_runs = [
+#         Run(1, person_id, datetime(2023, 9, 15).date(), 'interval', Decimal('5.00'), timedelta(minutes=30), 8),
+#         Run(2, person_id, datetime(2023, 9, 16).date(), 'sprint', Decimal('2.50'), timedelta(minutes=15), 7),
+#         Run(3, person_id, datetime(2023, 9, 17).date(), 'long_distance', Decimal('10.00'), timedelta(hours=1), 9),
+#         Run(4, person_id, datetime(2023, 9, 18).date(), 'race', Decimal('7.00'), timedelta(minutes=45), 9),
+#         Run(5, person_id, datetime(2023, 9, 19).date(), 'interval', Decimal('6.00'), timedelta(minutes=35), 8),
+#     ]
     
-    runs = repository.find_by_personal_info_id(person_id)
-    assert runs == expected_runs
+#     runs = repository.find_by_personal_info_id(person_id)
+#     assert runs == expected_runs
 
 """
 When we call RunRepository #find_by_date, we get all runs for the specified date.

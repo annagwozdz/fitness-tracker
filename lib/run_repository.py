@@ -19,19 +19,19 @@ class RunRepository:
             ) for row in rows
         ]
 
-    def find_by_personal_info_id(self, person_id):
-        rows = self._connection.execute("SELECT * FROM runs WHERE person_id = %s", [person_id])
-        return [
-            Run(
-                row["id"],  
-                row["person_id"],
-                row["date"],
-                row["run_type"],
-                row["distance"],
-                row["duration"],
-                row["satisfaction"]
-            ) for row in rows
-        ]
+    # def find_by_personal_info_id(self, person_id):
+    #     rows = self._connection.execute("SELECT * FROM runs WHERE person_id = %s", [person_id])
+    #     return [
+    #         Run(
+    #             row["id"],  
+    #             row["person_id"],
+    #             row["date"],
+    #             row["run_type"],
+    #             row["distance"],
+    #             row["duration"],
+    #             row["satisfaction"]
+    #         ) for row in rows
+    #     ]
 
     def find_by_date(self, target_date):
         if isinstance(target_date, str):
