@@ -80,3 +80,9 @@ class RunRepository:
         ])
         
         return result[0]["id"] if result else None
+    
+     # Delete a run by its id
+    def delete(self, id):
+        self._connection.execute(
+            'DELETE FROM runs WHERE id = %s', [id])
+        return None

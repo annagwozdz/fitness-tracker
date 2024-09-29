@@ -97,19 +97,19 @@ def test_create_record(db_connection):
     result = repository.all()
     assert len(result) > 0
 
-# """
-# When we call BookRepository#delete
-# We remove a record from the database.
-# """
-# def test_delete_record(db_connection):
-#     db_connection.seed("seeds/fitness_data.sql")
-#     repository = BookRepository(db_connection)
-#     repository.delete(3) 
+"""
+When we call RuunRepository#delete
+We remove a record from the database.
+"""
+def test_delete_record(db_connection):
+    db_connection.seed("seeds/fitness_data.sql")
+    repository = RunRepository(db_connection)
+    repository.delete(5) 
 
-#     result = repository.all()
-#     assert result == [
-#         Book(1, "Invisible Cities", "Italo Calvino"),
-#         Book(2, "The Man Who Was Thursday", "GK Chesterton"),
-#         Book(4, "No Place on Earth", "Christa Wolf"),
-#         Book(5, "Nevada", "Imogen Binnie"),
-#     ]
+    runs = repository.all()
+    assert runs == [
+        Run(1, 1, datetime(2023, 9, 15).date(), 'interval', Decimal('5.00'), timedelta(minutes=30), 8),
+        Run(2, 1, datetime(2023, 9, 16).date(), 'sprint', Decimal('2.50'), timedelta(minutes=15), 7),
+        Run(3, 1, datetime(2023, 9, 17).date(), 'long_distance', Decimal('10.00'), timedelta(hours=1), 9),
+        Run(4, 1, datetime(2023, 9, 18).date(), 'race', Decimal('7.00'), timedelta(minutes=45), 9),
+    ]
